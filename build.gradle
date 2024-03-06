@@ -1,7 +1,17 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-noarg:1.9.22"
+    }
+}
+
+
 plugins {
-    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "1.9.22"
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.9.22"
     id 'io.quarkus'
 }
+
+apply plugin: "kotlin-jpa"
 
 repositories {
     mavenCentral()
@@ -9,11 +19,16 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor "io.quarkus:quarkus-panache-common"
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation "io.quarkus:quarkus-hibernate-orm-panache"
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-kotlin'
     implementation 'io.quarkus:quarkus-config-yaml'
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'io.quarkus:quarkus-resteasy-reactive-kotlin-serialization'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
@@ -30,11 +45,19 @@ java {
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
-compileJava {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << '-parameters'
+allOpen {
+    annotation("jakarta.ws.rs.Path")
+    annotation("jakarta.enterprise.context.ApplicationScoped")
+    annotation("jakarta.persistence.Entity")
+    annotation("io.quarkus.test.junit.QuarkusTest")
 }
 
-compileTestJava {
-    options.encoding = 'UTF-8'
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    kotlinOptions.javaParameters = true
 }
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+}
+

@@ -1,2 +1,13 @@
-greeting:
-  message: "hello"
+quarkus:
+  datasource:
+    db-kind: postgres
+    username: postgres
+    password: postgres
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/transaction-engine-api
+      driver: org.postgresql.Driver
+
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+    dialect: org.hibernate.dialect.PostgreSQLDialect

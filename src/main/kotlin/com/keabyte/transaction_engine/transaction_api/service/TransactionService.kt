@@ -1,0 +1,82 @@
+package com.keabyte.transaction_engine.transaction_api.service
+
+import com.keabyte.transaction_engine.transaction_api.entity.AccountTransactionEntity
+import com.keabyte.transaction_engine.transaction_api.entity.InvestmentTransactionEntity
+import com.keabyte.transaction_engine.transaction_api.entity.TransactionEventEntity
+import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
+import com.keabyte.transaction_engine.transaction_api.type.TransactionType
+import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
+import jakarta.inject.Singleton
+import jakarta.transaction.Transactional
+
+@Singleton
+class TransactionService(
+) {
+    fun createTransaction(params: CreateTransactionParameters): TransactionEventEntity {
+        val transaction = TransactionEventEntity(
+            type = params.transactionType
+        )
+
+        val accountNumbers = params.investments.map { it.accountNumber }.toSet()
+
+        for (accountNumber in accountNumbers) {
+            val accountTransaction = AccountTransactionEntity(
+                transactionEvent = transaction,
+                accountNumber = accountNumber
+            )
+            transaction.accountTransactions.add(accountTransaction)
+
+            for (investment in params.investments.filter { it.accountNumber.equals(accountNumber) }) {
+                val investmentTransaction = InvestmentTransactionEntity(
+                    accountTransaction = accountTransaction,
+                    amount = investment.amount,
+                    currency = investment.currency,
+                    balanceEffectType = investment.balanceEffectType
+                )
+                accountTransaction.investmentTransactions.add(investmentTransaction)
+            }
+        }
+
+
+        return transaction
+    }
+
+    @Transactional
+    fun createDeposit(request: CreateDepositRequest): TransactionEventEntity {
+        val transaction = createTransaction(
+            CreateTransactionParameters(
+                transactionType = TransactionType.DEPOSIT,
+                investments = listOf(
+                    CreateInvestmentParameters(
+                        accountNumber = request.accountNumber,
+                        amount = request.amount,
+                        currency = request.currency,
+                        balanceEffectType = BalanceEffectType.CREDIT
+                    )
+                )
+            )
+        )
+        transaction.persist()
+        return transaction
+    }
+
+    @Transactional
+    fun createWithdrawal(request: CreateWithdrawalRequest): TransactionEventEntity {
+        val transaction = createTransaction(
+            CreateTransactionParameters(
+                transactionType = TransactionType.WITHDRAWAL,
+                investments = listOf(
+                    CreateInvestmentParameters(
+                        accountNumber = request.accountNumber,
+                        amount = request.amount,
+                        currency = request.currency,
+                        balanceEffectType = BalanceEffectType.DEBIT
+                    )
+                )
+            )
+        )
+        transaction.persist()
+        return transaction
+    }
+}
