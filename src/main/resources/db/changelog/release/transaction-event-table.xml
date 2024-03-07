@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="transaction_event.1" author="taylar-keast">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="transaction_event"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="transaction_event">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="transaction_reference" type="varchar(255)">
+                <constraints unique="true" uniqueConstraintName="uk_transaction_reference"/>
+            </column>
+            <column name="date_created" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="type" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

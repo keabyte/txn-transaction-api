@@ -2,7 +2,7 @@ package com.keabyte.transaction_engine.transaction_api.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 import com.keabyte.transaction_engine.transaction_api.web.model.TransactionEvent
-import io.quarkus.hibernate.orm.panache.PanacheEntity
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.time.OffsetDateTime
@@ -10,6 +10,7 @@ import java.util.*
 
 @Entity(name = "transaction_event")
 data class TransactionEventEntity(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
     val transactionReference: String = UUID.randomUUID().toString(),
     @CreationTimestamp
     val dateCreated: OffsetDateTime? = null,
@@ -17,7 +18,7 @@ data class TransactionEventEntity(
     val type: TransactionType,
     @OneToMany(mappedBy = "transactionEvent", cascade = [CascadeType.ALL])
     var accountTransactions: MutableList<AccountTransactionEntity> = ArrayList()
-) : PanacheEntity() {
+) : PanacheEntityBase() {
 
     fun toModel() = TransactionEvent(
         transactionReference = transactionReference,

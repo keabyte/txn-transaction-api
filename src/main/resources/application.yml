@@ -1,13 +1,10 @@
 quarkus:
-  datasource:
-    db-kind: postgres
-    username: postgres
-    password: postgres
-    jdbc:
-      url: jdbc:postgresql://localhost:5432/transaction-engine-api
-      driver: org.postgresql.Driver
-
   hibernate-orm:
     database:
-      generation: drop-and-create
+      generation: none
     dialect: org.hibernate.dialect.PostgreSQLDialect
+    physical-naming-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+  liquibase:
+    migrate-at-start: true
+    change-log: db/liquibase-changelog.xml

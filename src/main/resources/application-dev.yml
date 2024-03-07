@@ -1,0 +1,8 @@
+quarkus:
+  datasource:
+    db-kind: postgres
+    username: postgres
+    password: postgres
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/transaction-engine
+      driver: org.postgresql.Driver
