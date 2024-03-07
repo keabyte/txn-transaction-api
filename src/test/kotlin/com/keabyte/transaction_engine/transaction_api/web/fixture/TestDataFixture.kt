@@ -1,6 +1,6 @@
 package com.keabyte.transaction_engine.transaction_api.web.fixture
 
-import com.keabyte.transaction_engine.transaction_api.entity.AccountEntity
+import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import io.quarkus.runtime.Startup
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional

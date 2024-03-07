@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.entity
+package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.web.model.AccountTransaction
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase

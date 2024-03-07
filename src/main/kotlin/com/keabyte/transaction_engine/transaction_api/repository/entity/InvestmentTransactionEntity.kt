@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.entity
+package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.web.model.InvestmentTransaction

@@ -1,10 +1,10 @@
 package com.keabyte.transaction_engine.transaction_api.service
 
 import com.keabyte.transaction_engine.client_api.exception.BusinessException
-import com.keabyte.transaction_engine.transaction_api.entity.AccountTransactionEntity
-import com.keabyte.transaction_engine.transaction_api.entity.InvestmentTransactionEntity
-import com.keabyte.transaction_engine.transaction_api.entity.TransactionEventEntity
 import com.keabyte.transaction_engine.transaction_api.repository.AccountRepository
+import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountTransactionEntity
+import com.keabyte.transaction_engine.transaction_api.repository.entity.InvestmentTransactionEntity
+import com.keabyte.transaction_engine.transaction_api.repository.entity.TransactionEventEntity
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
