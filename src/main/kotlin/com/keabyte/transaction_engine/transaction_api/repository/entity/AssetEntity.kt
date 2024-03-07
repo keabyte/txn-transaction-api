@@ -15,16 +15,18 @@ import java.time.OffsetDateTime
 data class AssetEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
     val assetCode: String,
+    val name: String,
     @CreationTimestamp(source = SourceType.DB)
     val createdDate: OffsetDateTime? = null,
     val foundedDate: OffsetDateTime? = null,
     val dividendYield: BigDecimal,
     val description: String,
-    val websiteUrl: String
+    val websiteUrl: String?
 ) :
     PanacheEntityBase() {
     fun toModel() = Asset(
         assetCode = assetCode,
+        name = name,
         createdDate = createdDate!!,
         foundedDate = foundedDate!!,
         dividendYield = dividendYield,

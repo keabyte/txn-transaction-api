@@ -35,10 +35,11 @@ class TestDataFixture {
     fun createTestAssets() {
         AssetEntity(
             assetCode = "A1000",
+            name = "Test Asset",
             createdDate = OffsetDateTime.now(),
             foundedDate = OffsetDateTime.now(),
             dividendYield = BigDecimal(0.05),
-            description = "Test Asset",
+            description = "It's my test asset!",
             websiteUrl = "https://example.com"
         ).persist()
     }
