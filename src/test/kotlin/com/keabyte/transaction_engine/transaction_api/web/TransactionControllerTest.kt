@@ -2,7 +2,7 @@ package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.client_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
-import com.keabyte.transaction_engine.transaction_api.web.fixture.AccountFixture
+import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
 import io.quarkus.test.junit.QuarkusTest
@@ -26,7 +26,7 @@ class TransactionControllerTest {
     fun `create deposit`() {
         val transaction = transactionController.createDeposit(
             CreateDepositRequest(
-                accountNumber = AccountFixture.defaultAccountNumber,
+                accountNumber = TestDataFixture.defaultAccountNumber,
                 amount = BigDecimal("100.33"),
                 currency = "AUD"
             )
@@ -37,7 +37,7 @@ class TransactionControllerTest {
 
         val accountTransaction = transaction.accountTransactions[0]
         assertThat(accountTransaction.invesmentTransactions).hasSize(1)
-        assertThat(accountTransaction.accountNumber).isEqualTo(AccountFixture.defaultAccountNumber)
+        assertThat(accountTransaction.accountNumber).isEqualTo(TestDataFixture.defaultAccountNumber)
 
         val investmentTransaction = accountTransaction.invesmentTransactions[0]
         assertThat(investmentTransaction.amount).isEqualTo(BigDecimal("100.33"))
@@ -83,7 +83,7 @@ class TransactionControllerTest {
     fun `create withdrawal`() {
         val transaction = transactionController.createWithdrawal(
             CreateWithdrawalRequest(
-                accountNumber = AccountFixture.defaultAccountNumber,
+                accountNumber = TestDataFixture.defaultAccountNumber,
                 amount = BigDecimal("100.33"),
                 currency = "AUD"
             )
@@ -94,7 +94,7 @@ class TransactionControllerTest {
 
         val accountTransaction = transaction.accountTransactions[0]
         assertThat(accountTransaction.invesmentTransactions).hasSize(1)
-        assertThat(accountTransaction.accountNumber).isEqualTo(AccountFixture.defaultAccountNumber)
+        assertThat(accountTransaction.accountNumber).isEqualTo(TestDataFixture.defaultAccountNumber)
 
         val investmentTransaction = accountTransaction.invesmentTransactions[0]
         assertThat(investmentTransaction.amount).isEqualTo(BigDecimal("100.33"))

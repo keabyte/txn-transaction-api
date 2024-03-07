@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="account-table.create.1" author="taylar-keast">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="asset"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="asset">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="asset_code" type="varchar(255)">
+                <constraints unique="true" uniqueConstraintName="uk_asset_code"/>
+            </column>
+            <column name="created_date" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="dividend_yield" type="decimal" defaultValueNumeric="0"/>
+            <column name="description" type="varchar"/>
+            <column name="founded_date" type="timestamptz"/>
+            <column name="website_url" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
