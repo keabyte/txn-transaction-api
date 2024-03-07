@@ -13,7 +13,7 @@
         </preConditions>
 
         <createTable tableName="transaction_event">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="transaction_reference" type="varchar(255)">

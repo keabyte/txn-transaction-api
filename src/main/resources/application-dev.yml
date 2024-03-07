@@ -4,5 +4,5 @@ quarkus:
     username: postgres
     password: postgres
     jdbc:
-      url: jdbc:postgresql://localhost:5432/transaction-engine
+      url: jdbc:postgresql://localhost:5433/txn-transaction-api
       driver: org.postgresql.Driver

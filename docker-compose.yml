@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16.2
+    container_name: txn-transaction-api-db
+    environment:
+      LANG: en_US.utf8
+      POSTGRES_DB: txn-transaction-api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+      PGPORT: 5432
+    ports:
+      - 5433:5432
+    healthcheck:
+      test: pg_isready -U postgres
