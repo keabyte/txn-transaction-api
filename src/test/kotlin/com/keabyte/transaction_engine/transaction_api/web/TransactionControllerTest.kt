@@ -11,6 +11,7 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.notNullValue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
@@ -72,8 +73,11 @@ class TransactionControllerTest {
             .post("/transactions/deposits")
             .then()
             .statusCode(200)
-            .body("accountNumber", equalTo(AccountFixture.defaultAccountNumber))
+            .body("type", equalTo("DEPOSIT"))
+            .body("transactionReference", notNullValue())
+            .body("accountTransactions", notNullValue())
     }
+
 
     @Test
     fun `create withdrawal`() {
