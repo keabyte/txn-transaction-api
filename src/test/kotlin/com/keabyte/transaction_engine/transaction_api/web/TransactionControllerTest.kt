@@ -1,5 +1,6 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
+import com.keabyte.transaction_engine.transaction_api.web.fixture.AccountFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
@@ -16,7 +17,7 @@ class TransactionControllerTest {
     fun `create deposit`() {
         val transaction = transactionController.createDeposit(
             CreateDepositRequest(
-                accountNumber = "200002",
+                accountNumber = AccountFixture.defaultAccountNumber,
                 amount = BigDecimal("100.33"),
                 currency = "AUD"
             )

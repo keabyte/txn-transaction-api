@@ -1,8 +1,10 @@
 package com.keabyte.transaction_engine.transaction_api.service
 
+import com.keabyte.transaction_engine.client_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.entity.AccountTransactionEntity
 import com.keabyte.transaction_engine.transaction_api.entity.InvestmentTransactionEntity
 import com.keabyte.transaction_engine.transaction_api.entity.TransactionEventEntity
+import com.keabyte.transaction_engine.transaction_api.repository.AccountRepository
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
@@ -12,6 +14,7 @@ import jakarta.transaction.Transactional
 
 @Singleton
 class TransactionService(
+    private val accountRepository: AccountRepository
 ) {
     fun createTransaction(params: CreateTransactionParameters): TransactionEventEntity {
         val transaction = TransactionEventEntity(
@@ -21,9 +24,12 @@ class TransactionService(
         val accountNumbers = params.investments.map { it.accountNumber }.toSet()
 
         for (accountNumber in accountNumbers) {
+            val account = accountRepository.findByAccountNumber(accountNumber)
+                ?: throw BusinessException("No account exists with account number $accountNumber")
+
             val accountTransaction = AccountTransactionEntity(
                 transactionEvent = transaction,
-                accountNumber = accountNumber
+                account = account
             )
             transaction.accountTransactions.add(accountTransaction)
 

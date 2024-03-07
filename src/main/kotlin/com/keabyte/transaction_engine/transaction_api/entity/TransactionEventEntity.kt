@@ -5,6 +5,7 @@ import com.keabyte.transaction_engine.transaction_api.web.model.TransactionEvent
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.SourceType
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -12,7 +13,7 @@ import java.util.*
 data class TransactionEventEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
     val transactionReference: String = UUID.randomUUID().toString(),
-    @CreationTimestamp
+    @CreationTimestamp(source = SourceType.DB)
     val dateCreated: OffsetDateTime? = null,
     @Enumerated(EnumType.STRING)
     val type: TransactionType,

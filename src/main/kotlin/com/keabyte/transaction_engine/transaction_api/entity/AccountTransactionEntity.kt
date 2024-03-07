@@ -10,12 +10,14 @@ data class AccountTransactionEntity(
     @ManyToOne
     @JoinColumn(name = "transaction_event_id")
     val transactionEvent: TransactionEventEntity,
-    val accountNumber: String,
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    val account: AccountEntity,
     @OneToMany(mappedBy = "accountTransaction", cascade = [CascadeType.ALL])
     var investmentTransactions: MutableList<InvestmentTransactionEntity> = ArrayList()
 ) : PanacheEntityBase() {
 
     fun toModel() = AccountTransaction(
-        accountNumber = accountNumber,
+        accountNumber = account.accountNumber,
         invesmentTransactions = investmentTransactions.map { it.toModel() })
 }

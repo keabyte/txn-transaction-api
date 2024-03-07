@@ -5,22 +5,22 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="account_transaction.1" author="taylar-keast">
+    <changeSet id="account-table.create.1" author="taylar-keast">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="account_transaction"/>
+                <tableExists tableName="account"/>
             </not>
         </preConditions>
 
-        <createTable tableName="account_transaction">
+        <createTable tableName="account">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="transaction_event_id" type="bigint">
-                <constraints referencedColumnNames="id" referencedTableName="transaction_event"
-                             foreignKeyName="fk_transaction_event_id"/>
+            <column name="account_number" type="varchar(255)">
+                <constraints unique="true" uniqueConstraintName="uk_account_number"/>
             </column>
-            <column name="account_id" type="bigint"/>
+            <column name="date_created" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="client_number" type="varchar(255)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
