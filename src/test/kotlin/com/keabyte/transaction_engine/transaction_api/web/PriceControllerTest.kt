@@ -43,4 +43,28 @@ class PriceControllerTest {
             )
         }.message).contains("No asset exists")
     }
+
+    @Test
+    fun `get latest price`() {
+        priceController.createPrice(
+            TestDataFixture.defaultAssetCode, CreatePriceRequest(
+                effectiveDate = OffsetDateTime.now().minusDays(1),
+                price = BigDecimal.TEN,
+                currency = "AUD"
+            )
+        )
+
+        priceController.createPrice(
+            TestDataFixture.defaultAssetCode, CreatePriceRequest(
+                effectiveDate = OffsetDateTime.now(),
+                price = BigDecimal.ONE,
+                currency = "AUD"
+            )
+        )
+
+        val price = priceController.getLatestPrice(TestDataFixture.defaultAssetCode)
+
+        assertThat(price.price).isEqualTo(BigDecimal.ONE)
+        assertThat(price.currency).isEqualTo("AUD")
+    }
 }
