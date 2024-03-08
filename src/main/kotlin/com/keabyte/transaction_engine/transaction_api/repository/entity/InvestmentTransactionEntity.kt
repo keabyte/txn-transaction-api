@@ -13,6 +13,7 @@ data class InvestmentTransactionEntity(
     @JoinColumn(name = "account_transaction_id")
     val accountTransaction: AccountTransactionEntity,
     val amount: BigDecimal,
+    val units: BigDecimal,
     val currency: String,
     @Enumerated(EnumType.STRING)
     val balanceEffectType: BalanceEffectType,
@@ -24,6 +25,7 @@ data class InvestmentTransactionEntity(
         amount = amount,
         currency = currency,
         balanceEffectType = balanceEffectType,
-        assetCode = asset.assetCode
+        assetCode = asset.assetCode,
+        units = units
     )
 }

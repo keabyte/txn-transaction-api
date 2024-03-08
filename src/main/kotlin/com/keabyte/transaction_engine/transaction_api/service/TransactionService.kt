@@ -11,11 +11,13 @@ import com.keabyte.transaction_engine.transaction_api.web.model.transaction.Crea
 import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateWithdrawalRequest
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import java.math.BigDecimal
 
 @ApplicationScoped
 class TransactionService(
     private val accountRepository: AccountRepository,
-    private val assetService: AssetService
+    private val assetService: AssetService,
+    private val priceService: PriceService
 ) {
     fun createTransaction(params: CreateTransactionParameters): TransactionEventEntity {
         val transaction = TransactionEventEntity(
@@ -34,16 +36,8 @@ class TransactionService(
             )
             transaction.accountTransactions.add(accountTransaction)
 
-            for (investment in params.investments.filter { it.accountNumber.equals(accountNumber) }) {
-                val asset = assetService.findByAssetCode(investment.assetCode)
-
-                val investmentTransaction = InvestmentTransactionEntity(
-                    accountTransaction = accountTransaction,
-                    amount = investment.amount,
-                    currency = investment.currency,
-                    balanceEffectType = investment.balanceEffectType,
-                    asset = asset
-                )
+            for (investment in params.investments.filter { it.accountNumber == accountNumber }) {
+                val investmentTransaction = createInvestmentTransaction(investment, accountTransaction)
                 accountTransaction.investmentTransactions.add(investmentTransaction)
             }
         }
@@ -51,6 +45,24 @@ class TransactionService(
         return transaction
     }
 
+    private fun createInvestmentTransaction(
+        investment: CreateInvestmentParameters,
+        accountTransaction: AccountTransactionEntity
+    ): InvestmentTransactionEntity {
+        val asset = assetService.findByAssetCode(investment.assetCode)
+        val price = priceService.getLatestPriceForAsset(investment.assetCode)
+        val units = (investment.amount / price.price).setScale(asset.roundingScale, BigDecimal.ROUND_HALF_UP)
+
+        return InvestmentTransactionEntity(
+            accountTransaction = accountTransaction,
+            amount = investment.amount,
+            currency = investment.currency,
+            balanceEffectType = investment.balanceEffectType,
+            asset = asset,
+            units = units
+        )
+    }
+    
     @Transactional
     fun createDeposit(request: CreateDepositRequest): TransactionEventEntity {
         val transaction = createTransaction(

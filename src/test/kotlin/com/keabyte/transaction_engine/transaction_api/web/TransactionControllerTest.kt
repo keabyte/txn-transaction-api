@@ -43,6 +43,7 @@ class TransactionControllerTest {
         assertThat(investmentTransaction.amount).isEqualTo(BigDecimal("100.33"))
         assertThat(investmentTransaction.currency).isEqualTo("AUD")
         assertThat(investmentTransaction.balanceEffectType).isEqualTo(BalanceEffectType.CREDIT)
+        assertThat(investmentTransaction.units).isEqualTo(BigDecimal("100.33"))
     }
 
     @Test

@@ -5,6 +5,7 @@ import java.math.BigDecimal
 
 class InvestmentTransaction(
     val amount: BigDecimal,
+    val units: BigDecimal,
     val currency: String,
     val balanceEffectType: BalanceEffectType,
     val assetCode: String
