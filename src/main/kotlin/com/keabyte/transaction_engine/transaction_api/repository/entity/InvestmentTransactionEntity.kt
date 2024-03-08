@@ -15,7 +15,15 @@ data class InvestmentTransactionEntity(
     val amount: BigDecimal,
     val currency: String,
     @Enumerated(EnumType.STRING)
-    val balanceEffectType: BalanceEffectType
+    val balanceEffectType: BalanceEffectType,
+    @ManyToOne
+    @JoinColumn(name = "asset_id")
+    val asset: AssetEntity,
 ) : PanacheEntityBase() {
-    fun toModel() = InvestmentTransaction(amount = amount, currency = currency, balanceEffectType = balanceEffectType)
+    fun toModel() = InvestmentTransaction(
+        amount = amount,
+        currency = currency,
+        balanceEffectType = balanceEffectType,
+        assetCode = asset.assetCode
+    )
 }

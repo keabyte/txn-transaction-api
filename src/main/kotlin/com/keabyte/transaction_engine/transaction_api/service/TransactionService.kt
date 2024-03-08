@@ -14,7 +14,8 @@ import jakarta.transaction.Transactional
 
 @Singleton
 class TransactionService(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val assetService: AssetService
 ) {
     fun createTransaction(params: CreateTransactionParameters): TransactionEventEntity {
         val transaction = TransactionEventEntity(
@@ -34,16 +35,18 @@ class TransactionService(
             transaction.accountTransactions.add(accountTransaction)
 
             for (investment in params.investments.filter { it.accountNumber.equals(accountNumber) }) {
+                val asset = assetService.findByAssetCode(investment.assetCode)
+
                 val investmentTransaction = InvestmentTransactionEntity(
                     accountTransaction = accountTransaction,
                     amount = investment.amount,
                     currency = investment.currency,
-                    balanceEffectType = investment.balanceEffectType
+                    balanceEffectType = investment.balanceEffectType,
+                    asset = asset
                 )
                 accountTransaction.investmentTransactions.add(investmentTransaction)
             }
         }
-
 
         return transaction
     }
@@ -58,7 +61,8 @@ class TransactionService(
                         accountNumber = request.accountNumber,
                         amount = request.amount,
                         currency = request.currency,
-                        balanceEffectType = BalanceEffectType.CREDIT
+                        balanceEffectType = BalanceEffectType.CREDIT,
+                        assetCode = assetService.findCashAssetForCurrency(request.currency).assetCode
                     )
                 )
             )
@@ -77,7 +81,8 @@ class TransactionService(
                         accountNumber = request.accountNumber,
                         amount = request.amount,
                         currency = request.currency,
-                        balanceEffectType = BalanceEffectType.DEBIT
+                        balanceEffectType = BalanceEffectType.DEBIT,
+                        assetCode = assetService.findCashAssetForCurrency(request.currency).assetCode
                     )
                 )
             )

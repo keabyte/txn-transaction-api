@@ -2,6 +2,7 @@ package com.keabyte.transaction_engine.transaction_api.web.fixture
 
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
+import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import io.quarkus.runtime.Startup
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
@@ -13,7 +14,7 @@ class TestDataFixture {
 
     companion object {
         const val defaultAccountNumber = "P1000"
-        const val defaultAssetCode = "A1000"
+        const val defaultAssetCode = "CASH_AUD"
     }
 
     @Startup
@@ -34,13 +35,15 @@ class TestDataFixture {
     @Transactional
     fun createTestAssets() {
         AssetEntity(
-            assetCode = "A1000",
-            name = "Test Asset",
+            assetCode = "CASH_AUD",
+            name = "Cash (AUD)",
             createdDate = OffsetDateTime.now(),
             foundedDate = OffsetDateTime.now(),
-            dividendYield = BigDecimal(0.05),
-            description = "It's my test asset!",
-            websiteUrl = "https://example.com"
+            dividendYield = BigDecimal.ZERO,
+            description = "Australian dollars",
+            type = AssetType.CASH,
+            roundingScale = 2,
+            currency = "AUD"
         ).persist()
     }
 }

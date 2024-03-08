@@ -1,6 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.client_api.exception.BusinessException
+import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateAssetRequest
 import io.quarkus.test.junit.QuarkusTest
@@ -25,9 +26,9 @@ class AssetControllerTest {
 
     @Test
     fun `get asset by code when asset does not exist`() {
-        assertThrows<BusinessException> {
-            assetController.findByAssetCode("INVALID")
-        }
+        assertThat(assertThrows<BusinessException> {
+            assetController.findByAssetCode("not a real asset code")
+        }.message).contains("No asset exists")
     }
 
     @Test
@@ -39,7 +40,10 @@ class AssetControllerTest {
                 foundedDate = OffsetDateTime.now(),
                 dividendYield = BigDecimal.ZERO,
                 description = "Tesla",
-                websiteUrl = "https://www.tesla.com"
+                websiteUrl = "https://www.tesla.com",
+                type = AssetType.STOCK,
+                roundingScale = 6,
+                currency = "AUD"
             )
         )
 

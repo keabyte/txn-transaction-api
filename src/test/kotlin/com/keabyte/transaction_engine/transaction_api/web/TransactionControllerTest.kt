@@ -47,7 +47,7 @@ class TransactionControllerTest {
 
     @Test
     fun `create deposit when account does not exist`() {
-        assertThrows<BusinessException> {
+        assertThat(assertThrows<BusinessException> {
             transactionController.createDeposit(
                 CreateDepositRequest(
                     accountNumber = "not a real account number",
@@ -55,7 +55,20 @@ class TransactionControllerTest {
                     currency = "AUD"
                 )
             )
-        }
+        }.message).contains("No account exists")
+    }
+
+    @Test
+    fun `create deposit when no cash asset exists`() {
+        assertThat(assertThrows<BusinessException> {
+            transactionController.createDeposit(
+                CreateDepositRequest(
+                    accountNumber = TestDataFixture.defaultAccountNumber,
+                    amount = BigDecimal("100"),
+                    currency = "NZD"
+                )
+            )
+        }.message).contains("No cash asset exists for currency")
     }
 
     @Test

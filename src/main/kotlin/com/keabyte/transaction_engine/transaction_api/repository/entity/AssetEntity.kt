@@ -1,11 +1,9 @@
 package com.keabyte.transaction_engine.transaction_api.repository.entity
 
+import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import com.keabyte.transaction_engine.transaction_api.web.model.Asset
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.SourceType
 import java.math.BigDecimal
@@ -21,7 +19,11 @@ data class AssetEntity(
     val foundedDate: OffsetDateTime? = null,
     val dividendYield: BigDecimal,
     val description: String,
-    val websiteUrl: String?
+    val websiteUrl: String? = null,
+    @Enumerated(EnumType.STRING)
+    val type: AssetType,
+    val roundingScale: Int,
+    val currency: String?
 ) :
     PanacheEntityBase() {
     fun toModel() = Asset(
@@ -31,6 +33,9 @@ data class AssetEntity(
         foundedDate = foundedDate!!,
         dividendYield = dividendYield,
         description = description,
-        websiteUrl = websiteUrl
+        websiteUrl = websiteUrl,
+        type = type,
+        roundingScale = roundingScale,
+        currency = currency
     )
 }

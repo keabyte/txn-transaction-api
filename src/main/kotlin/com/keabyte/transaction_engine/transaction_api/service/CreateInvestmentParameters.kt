@@ -7,5 +7,6 @@ data class CreateInvestmentParameters(
     val accountNumber: String,
     val amount: BigDecimal,
     val currency: String,
-    val balanceEffectType: BalanceEffectType
+    val balanceEffectType: BalanceEffectType,
+    val assetCode: String
 )
