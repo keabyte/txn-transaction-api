@@ -1,9 +1,9 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.transaction_api.service.TransactionService
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
-import com.keabyte.transaction_engine.transaction_api.web.model.TransactionEvent
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateDepositRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateWithdrawalRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.TransactionEvent
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path

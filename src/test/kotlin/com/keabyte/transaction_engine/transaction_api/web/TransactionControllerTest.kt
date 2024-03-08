@@ -3,8 +3,8 @@ package com.keabyte.transaction_engine.transaction_api.web
 import com.keabyte.transaction_engine.client_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateDepositRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateWithdrawalRequest
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import jakarta.inject.Inject

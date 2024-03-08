@@ -4,7 +4,7 @@ import com.keabyte.transaction_engine.client_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.repository.AssetRepository
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateAssetRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.CreateAssetRequest
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 

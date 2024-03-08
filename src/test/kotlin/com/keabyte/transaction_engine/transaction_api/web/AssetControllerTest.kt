@@ -3,7 +3,7 @@ package com.keabyte.transaction_engine.transaction_api.web
 import com.keabyte.transaction_engine.client_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateAssetRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.CreateAssetRequest
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.assertj.core.api.Assertions.assertThat

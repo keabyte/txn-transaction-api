@@ -1,7 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
-import com.keabyte.transaction_engine.transaction_api.web.model.Asset
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp

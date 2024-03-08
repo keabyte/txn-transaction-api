@@ -1,7 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
-import com.keabyte.transaction_engine.transaction_api.web.model.InvestmentTransaction
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.InvestmentTransaction
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import java.math.BigDecimal

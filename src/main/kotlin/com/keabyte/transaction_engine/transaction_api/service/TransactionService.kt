@@ -7,8 +7,8 @@ import com.keabyte.transaction_engine.transaction_api.repository.entity.Investme
 import com.keabyte.transaction_engine.transaction_api.repository.entity.TransactionEventEntity
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateDepositRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateWithdrawalRequest
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 

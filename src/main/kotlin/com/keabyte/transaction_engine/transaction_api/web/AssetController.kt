@@ -1,8 +1,8 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.transaction_api.service.AssetService
-import com.keabyte.transaction_engine.transaction_api.web.model.Asset
-import com.keabyte.transaction_engine.transaction_api.web.model.CreateAssetRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.CreateAssetRequest
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 

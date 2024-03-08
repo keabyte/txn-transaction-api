@@ -1,7 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
-import com.keabyte.transaction_engine.transaction_api.web.model.TransactionEvent
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.TransactionEvent
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp

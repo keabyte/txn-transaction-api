@@ -1,8 +1,8 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.transaction_api.service.PriceService
-import com.keabyte.transaction_engine.transaction_api.web.model.CreatePriceRequest
-import com.keabyte.transaction_engine.transaction_api.web.model.Price
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.Price
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path

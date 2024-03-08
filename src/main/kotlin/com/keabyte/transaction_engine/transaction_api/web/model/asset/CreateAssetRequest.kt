@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.web.model
+package com.keabyte.transaction_engine.transaction_api.web.model.asset
 
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType

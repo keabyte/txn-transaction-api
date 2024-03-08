@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.web.model
+package com.keabyte.transaction_engine.transaction_api.web.model.asset
 
 import java.math.BigDecimal
 
