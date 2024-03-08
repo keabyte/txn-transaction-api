@@ -15,6 +15,6 @@ data class AccountEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
     val accountNumber: String = UUID.randomUUID().toString(),
     @CreationTimestamp(source = SourceType.DB)
-    val dateCreated: OffsetDateTime? = null,
+    val createdDate: OffsetDateTime? = null,
     val clientNumber: String
 ) : PanacheEntityBase()

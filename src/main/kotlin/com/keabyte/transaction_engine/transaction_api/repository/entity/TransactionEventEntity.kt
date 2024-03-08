@@ -14,7 +14,7 @@ data class TransactionEventEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
     val transactionReference: String = UUID.randomUUID().toString(),
     @CreationTimestamp(source = SourceType.DB)
-    val dateCreated: OffsetDateTime? = null,
+    val createdDate: OffsetDateTime? = null,
     @Enumerated(EnumType.STRING)
     val type: TransactionType,
     @OneToMany(mappedBy = "transactionEvent", cascade = [CascadeType.ALL])
@@ -23,7 +23,7 @@ data class TransactionEventEntity(
 
     fun toModel() = TransactionEvent(
         transactionReference = transactionReference,
-        dateCreated = dateCreated!!,
+        createdDate = createdDate!!,
         type = type,
         accountTransactions = accountTransactions.map { it.toModel() }
     )

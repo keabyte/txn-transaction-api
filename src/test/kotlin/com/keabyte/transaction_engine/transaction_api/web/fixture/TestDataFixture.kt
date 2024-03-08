@@ -2,6 +2,7 @@ package com.keabyte.transaction_engine.transaction_api.web.fixture
 
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
+import com.keabyte.transaction_engine.transaction_api.repository.entity.PriceEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import io.quarkus.runtime.Startup
 import jakarta.enterprise.context.ApplicationScoped
@@ -27,14 +28,14 @@ class TestDataFixture {
     fun createTestAccounts() {
         AccountEntity(
             accountNumber = "P1000",
-            dateCreated = OffsetDateTime.now(),
+            createdDate = OffsetDateTime.now(),
             clientNumber = "C1000"
         ).persist()
     }
 
     @Transactional
     fun createTestAssets() {
-        AssetEntity(
+        val asset = AssetEntity(
             assetCode = "CASH_AUD",
             name = "Cash (AUD)",
             createdDate = OffsetDateTime.now(),
@@ -43,6 +44,14 @@ class TestDataFixture {
             description = "Australian dollars",
             type = AssetType.CASH,
             roundingScale = 2,
+            currency = "AUD"
+        )
+        asset.persist()
+
+        PriceEntity(
+            asset = asset,
+            effectiveDate = OffsetDateTime.now(),
+            price = BigDecimal.ONE,
             currency = "AUD"
         ).persist()
     }

@@ -19,7 +19,7 @@
             <column name="transaction_reference" type="varchar(255)">
                 <constraints unique="true" uniqueConstraintName="uk_transaction_reference"/>
             </column>
-            <column name="date_created" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="created_date" type="timestamptz" defaultValueComputed="current_timestamp"/>
             <column name="type" type="varchar(255)"/>
         </createTable>
     </changeSet>

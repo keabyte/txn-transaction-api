@@ -8,19 +8,22 @@
     <changeSet id="account-table.create.1" author="taylar-keast">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="account"/>
+                <tableExists tableName="price_point"/>
             </not>
         </preConditions>
 
-        <createTable tableName="account">
+        <createTable tableName="price_point">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="account_number" type="varchar(255)">
-                <constraints unique="true" uniqueConstraintName="uk_account_number"/>
+            <column name="asset_id" type="bigint">
+                <constraints referencedColumnNames="id"
+                             referencedTableName="asset" foreignKeyName="fk_asset_id"/>
             </column>
             <column name="created_date" type="timestamptz" defaultValueComputed="current_timestamp"/>
-            <column name="client_number" type="varchar(255)"/>
+            <column name="effective_date" type="timestamptz"/>
+            <column name="price" type="decimal"/>
+            <column name="currency" type="varchar(255)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

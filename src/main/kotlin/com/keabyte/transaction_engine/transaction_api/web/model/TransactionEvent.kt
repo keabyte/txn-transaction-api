@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 
 data class TransactionEvent(
     val transactionReference: String,
-    val dateCreated: OffsetDateTime,
+    val createdDate: OffsetDateTime,
     val type: TransactionType,
     val accountTransactions: List<AccountTransaction>
 )

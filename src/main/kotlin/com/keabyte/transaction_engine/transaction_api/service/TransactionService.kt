@@ -9,10 +9,10 @@ import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateDepositRequest
 import com.keabyte.transaction_engine.transaction_api.web.model.CreateWithdrawalRequest
-import jakarta.inject.Singleton
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
-@Singleton
+@ApplicationScoped
 class TransactionService(
     private val accountRepository: AccountRepository,
     private val assetService: AssetService
