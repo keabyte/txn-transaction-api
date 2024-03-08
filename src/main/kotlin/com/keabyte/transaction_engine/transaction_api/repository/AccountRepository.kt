@@ -7,6 +7,6 @@ import jakarta.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class AccountRepository : PanacheRepository<AccountEntity> {
 
-    fun findByAccountNumber(accountNumber: String) =
-        find("accountNumber", accountNumber).firstResult<AccountEntity>()
+    fun findByAccountNumber(accountNumber: String): AccountEntity? =
+        find("accountNumber", accountNumber).firstResult()
 }

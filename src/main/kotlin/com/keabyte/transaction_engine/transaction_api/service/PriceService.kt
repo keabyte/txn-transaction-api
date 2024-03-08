@@ -1,6 +1,6 @@
 package com.keabyte.transaction_engine.transaction_api.service
 
-import com.keabyte.transaction_engine.client_api.exception.BusinessException
+import com.keabyte.transaction_engine.transaction_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.repository.PriceRepository
 import com.keabyte.transaction_engine.transaction_api.repository.entity.PriceEntity
 import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest

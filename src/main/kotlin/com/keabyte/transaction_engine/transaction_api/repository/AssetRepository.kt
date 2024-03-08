@@ -8,9 +8,9 @@ import jakarta.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class AssetRepository : PanacheRepository<AssetEntity> {
 
-    fun findByAssetCode(assetCode: String) =
-        find("assetCode", assetCode).firstResult<AssetEntity>()
+    fun findByAssetCode(assetCode: String): AssetEntity? =
+        find("assetCode", assetCode).firstResult()
 
-    fun findByTypeAndCurrency(type: AssetType, currency: String) =
-        find("type = ?1 and currency = ?2", type, currency).list<AssetEntity>()
+    fun findByTypeAndCurrency(type: AssetType, currency: String): MutableList<AssetEntity> =
+        find("type = ?1 and currency = ?2", type, currency).list()
 }
