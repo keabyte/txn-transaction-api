@@ -6,3 +6,6 @@ quarkus:
     jdbc:
       url: jdbc:postgresql://localhost:5433/txn-transaction-api
       driver: org.postgresql.Driver
+
+  liquibase:
+    migrate-at-start: true

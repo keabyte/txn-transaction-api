@@ -6,5 +6,8 @@ quarkus:
     physical-naming-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
   liquibase:
-    migrate-at-start: true
     change-log: db/liquibase-changelog.xml
+    clean-at-start: true
+
+  smallrye-openapi:
+    path: /openapi

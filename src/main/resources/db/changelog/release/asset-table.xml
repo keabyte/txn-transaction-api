@@ -29,7 +29,7 @@
             </column>
             <column name="type" type="varchar(255)"/>
             <column name="currency" type="varchar(255)"/>
-            <column name="rounding_scale" type="varchar(255)"
+            <column name="rounding_scale" type="int"
                     remarks="The number of digits to the right of the decimal point in a number."/>
         </createTable>
     </changeSet>
