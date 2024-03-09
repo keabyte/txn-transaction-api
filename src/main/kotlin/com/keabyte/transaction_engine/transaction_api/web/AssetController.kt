@@ -5,7 +5,9 @@ import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
 import com.keabyte.transaction_engine.transaction_api.web.model.asset.CreateAssetRequest
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
+import org.eclipse.microprofile.openapi.annotations.tags.Tag
 
+@Tag(name = "Assets")
 @Path("/assets")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

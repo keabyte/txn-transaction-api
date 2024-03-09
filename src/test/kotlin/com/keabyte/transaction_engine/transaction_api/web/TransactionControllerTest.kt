@@ -73,7 +73,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `create deposit via REST API`() {
+    fun `create deposit rest call`() {
         RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON)
             .body(

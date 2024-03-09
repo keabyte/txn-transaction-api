@@ -8,4 +8,4 @@ quarkus:
       driver: org.postgresql.Driver
 
   liquibase:
-    migrate-at-start: true
+    clean-at-start: true

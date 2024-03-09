@@ -1,13 +1,16 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.transaction_api.service.PriceService
-import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest
 import com.keabyte.transaction_engine.transaction_api.web.model.asset.Price
-import jakarta.ws.rs.GET
-import jakarta.ws.rs.POST
-import jakarta.ws.rs.Path
+import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
+import org.eclipse.microprofile.openapi.annotations.tags.Tag
 
-@Path("/assets/{assetCode}/prices")
+@Tag(name = "Prices")
+@Path("/assets")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 class PriceController(private val priceService: PriceService) {
 
     @Path("/{assetCode}/prices")

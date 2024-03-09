@@ -4,8 +4,11 @@ import com.keabyte.transaction_engine.transaction_api.exception.BusinessExceptio
 import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest
 import io.quarkus.test.junit.QuarkusTest
+import io.restassured.RestAssured
 import jakarta.inject.Inject
+import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
@@ -66,5 +69,30 @@ class PriceControllerTest {
 
         assertThat(price.price).isEqualTo(BigDecimal.ONE)
         assertThat(price.currency).isEqualTo("AUD")
+    }
+
+    @Test
+    fun `get latest price when asset does not exist`() {
+        assertThat(assertThrows<BusinessException> {
+            priceController.getLatestPrice("not a real asset code")
+        }.message).contains("No price exists for asset")
+    }
+
+    @Test
+    fun `get latest price when no price exists`() {
+        assertThat(assertThrows<BusinessException> {
+            priceController.getLatestPrice("CASH_USD")
+        }.message).contains("No price exists for asset")
+    }
+
+    @Test
+    fun `get latest price rest call`() {
+        RestAssured.given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .`when`()
+            .get("/assets/${TestDataFixture.defaultAssetCode}/prices/latest")
+            .then()
+            .statusCode(200)
+            .body("currency", equalTo("AUD"))
     }
 }

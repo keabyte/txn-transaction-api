@@ -7,7 +7,7 @@ quarkus:
 
   liquibase:
     change-log: db/liquibase-changelog.xml
-    clean-at-start: true
+    migrate-at-start: true
 
   smallrye-openapi:
     path: /openapi

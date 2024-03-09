@@ -4,9 +4,13 @@ import com.keabyte.transaction_engine.transaction_api.exception.BusinessExceptio
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.asset.CreateAssetRequest
+import io.quarkus.test.TestTransaction
 import io.quarkus.test.junit.QuarkusTest
+import io.restassured.RestAssured
 import jakarta.inject.Inject
+import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
@@ -17,6 +21,18 @@ class AssetControllerTest {
 
     @Inject
     lateinit var assetController: AssetController
+
+    val createAssetRequest = CreateAssetRequest(
+        assetCode = "TSLA",
+        name = "Tesla Inc.",
+        foundedDate = OffsetDateTime.now(),
+        dividendYield = BigDecimal.ZERO,
+        description = "Tesla",
+        websiteUrl = "https://www.tesla.com",
+        type = AssetType.STOCK,
+        roundingScale = 6,
+        currency = "AUD"
+    )
 
     @Test
     fun `get asset by code`() {
@@ -31,23 +47,25 @@ class AssetControllerTest {
         }.message).contains("No asset exists")
     }
 
+    @TestTransaction
     @Test
     fun `create asset`() {
-        assetController.createAsset(
-            CreateAssetRequest(
-                assetCode = "TSLA",
-                name = "Tesla Inc.",
-                foundedDate = OffsetDateTime.now(),
-                dividendYield = BigDecimal.ZERO,
-                description = "Tesla",
-                websiteUrl = "https://www.tesla.com",
-                type = AssetType.STOCK,
-                roundingScale = 6,
-                currency = "AUD"
-            )
-        )
+        assetController.createAsset(createAssetRequest)
 
         val asset = assetController.findByAssetCode("TSLA")
         assertThat(asset.assetCode).isEqualTo("TSLA")
+    }
+
+    @TestTransaction
+    @Test
+    fun `create asset rest call`() {
+        RestAssured.given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(createAssetRequest)
+            .`when`()
+            .post("/assets")
+            .then()
+            .statusCode(200)
+            .body("assetCode", equalTo("TSLA"))
     }
 }

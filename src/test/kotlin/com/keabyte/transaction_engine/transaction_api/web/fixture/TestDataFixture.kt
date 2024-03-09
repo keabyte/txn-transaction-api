@@ -54,5 +54,17 @@ class TestDataFixture {
             price = BigDecimal.ONE,
             currency = "AUD"
         ).persist()
+
+        AssetEntity(
+            assetCode = "CASH_USD",
+            name = "Cash (USD)",
+            createdDate = OffsetDateTime.now(),
+            foundedDate = OffsetDateTime.now(),
+            dividendYield = BigDecimal.ZERO,
+            description = "American dollars",
+            type = AssetType.CASH,
+            roundingScale = 2,
+            currency = "USD"
+        ).persist()
     }
 }
