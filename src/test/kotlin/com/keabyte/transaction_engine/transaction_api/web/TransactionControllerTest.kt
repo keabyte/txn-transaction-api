@@ -10,10 +10,10 @@ import io.restassured.RestAssured
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.notNullValue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 
 @QuarkusTest
@@ -48,7 +48,7 @@ class TransactionControllerTest {
 
     @Test
     fun `create deposit when account does not exist`() {
-        assertThat(assertThrows<BusinessException> {
+        assertThatThrownBy {
             transactionController.createDeposit(
                 CreateDepositRequest(
                     accountNumber = "not a real account number",
@@ -56,12 +56,14 @@ class TransactionControllerTest {
                     currency = "AUD"
                 )
             )
-        }.message).contains("No account exists")
+        }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No account exists")
     }
 
     @Test
     fun `create deposit when no cash asset exists`() {
-        assertThat(assertThrows<BusinessException> {
+        assertThatThrownBy {
             transactionController.createDeposit(
                 CreateDepositRequest(
                     accountNumber = TestDataFixture.defaultAccountNumber,
@@ -69,7 +71,9 @@ class TransactionControllerTest {
                     currency = "NZD"
                 )
             )
-        }.message).contains("No cash asset exists for currency")
+        }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No cash asset exists for currency")
     }
 
     @Test

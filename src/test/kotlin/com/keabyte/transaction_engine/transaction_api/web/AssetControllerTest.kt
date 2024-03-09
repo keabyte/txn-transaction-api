@@ -10,9 +10,9 @@ import io.restassured.RestAssured
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 
@@ -42,9 +42,9 @@ class AssetControllerTest {
 
     @Test
     fun `get asset by code when asset does not exist`() {
-        assertThat(assertThrows<BusinessException> {
-            assetController.findByAssetCode("not a real asset code")
-        }.message).contains("No asset exists")
+        assertThatThrownBy { assetController.findByAssetCode("not a real asset code") }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No asset exists")
     }
 
     @TestTransaction

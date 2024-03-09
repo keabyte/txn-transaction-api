@@ -8,9 +8,9 @@ import io.restassured.RestAssured
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.MediaType
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 
@@ -36,7 +36,7 @@ class PriceControllerTest {
 
     @Test
     fun `create price when asset does not exist`() {
-        assertThat(assertThrows<BusinessException> {
+        assertThatThrownBy {
             priceController.createPrice(
                 "not a real asset code", CreatePriceRequest(
                     effectiveDate = OffsetDateTime.now(),
@@ -44,7 +44,9 @@ class PriceControllerTest {
                     currency = "AUD"
                 )
             )
-        }.message).contains("No asset exists")
+        }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No asset exists")
     }
 
     @Test
@@ -73,16 +75,16 @@ class PriceControllerTest {
 
     @Test
     fun `get latest price when asset does not exist`() {
-        assertThat(assertThrows<BusinessException> {
-            priceController.getLatestPrice("not a real asset code")
-        }.message).contains("No price exists for asset")
+        assertThatThrownBy { priceController.getLatestPrice("not a real asset code") }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No price exists for asset")
     }
 
     @Test
     fun `get latest price when no price exists`() {
-        assertThat(assertThrows<BusinessException> {
-            priceController.getLatestPrice("CASH_USD")
-        }.message).contains("No price exists for asset")
+        assertThatThrownBy { priceController.getLatestPrice("CASH_USD") }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No price exists for asset")
     }
 
     @Test
