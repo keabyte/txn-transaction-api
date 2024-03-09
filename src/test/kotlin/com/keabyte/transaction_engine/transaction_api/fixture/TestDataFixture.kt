@@ -9,12 +9,14 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 import java.math.BigDecimal
 import java.time.OffsetDateTime
+import java.util.*
 
 @ApplicationScoped
 class TestDataFixture {
 
     companion object {
         const val defaultAccountNumber = "P1000"
+        const val zeroBalanceAccountNumber = "P0000"
         const val defaultAssetCode = "CASH_AUD"
     }
 
@@ -25,9 +27,27 @@ class TestDataFixture {
     }
 
     @Transactional
+    fun getNewAccount(clientNumber: String = UUID.randomUUID().toString()): AccountEntity {
+        val account = AccountEntity(
+            accountNumber = UUID.randomUUID().toString(),
+            createdDate = OffsetDateTime.now(),
+            clientNumber = clientNumber
+        )
+        account.persist()
+
+        return account
+    }
+
+    @Transactional
     fun createTestAccounts() {
         AccountEntity(
-            accountNumber = "P1000",
+            accountNumber = defaultAccountNumber,
+            createdDate = OffsetDateTime.now(),
+            clientNumber = "C1000"
+        ).persist()
+
+        AccountEntity(
+            accountNumber = zeroBalanceAccountNumber,
             createdDate = OffsetDateTime.now(),
             clientNumber = "C1000"
         ).persist()

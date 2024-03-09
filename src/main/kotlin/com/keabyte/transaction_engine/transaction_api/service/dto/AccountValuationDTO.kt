@@ -1,9 +1,10 @@
 package com.keabyte.transaction_engine.transaction_api.service.dto
 
 import com.keabyte.transaction_engine.transaction_api.exception.BusinessException
+import com.keabyte.transaction_engine.transaction_api.web.model.AccountValuation
 import java.math.BigDecimal
 
-data class AccountValuation(val balances: MutableList<BalanceValuation> = arrayListOf()) {
+data class AccountValuationDTO(val balances: MutableList<BalanceValuationDTO> = arrayListOf()) {
 
     /**
      * Return the total value of the account
@@ -38,6 +39,8 @@ data class AccountValuation(val balances: MutableList<BalanceValuation> = arrayL
     fun hasAssetBalance(assetCode: String): Boolean {
         return balances.any { it.balance.asset.assetCode == assetCode }
     }
+
+    fun toModel() = AccountValuation(totalValue(), balances.map { it.toModel() })
 }
 
 

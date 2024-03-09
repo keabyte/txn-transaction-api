@@ -5,8 +5,8 @@ import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountT
 import com.keabyte.transaction_engine.transaction_api.repository.entity.BalanceEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.InvestmentTransactionEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.TransactionEventEntity
-import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuation
-import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuation
+import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuationDTO
+import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuationDTO
 import com.keabyte.transaction_engine.transaction_api.service.dto.CreateInvestmentParameters
 import com.keabyte.transaction_engine.transaction_api.service.dto.CreateTransactionParameters
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
@@ -53,7 +53,7 @@ class TransactionService(
     private fun createInvestmentTransaction(
         investment: CreateInvestmentParameters,
         accountTransaction: AccountTransactionEntity,
-        accountValuation: AccountValuation
+        accountValuation: AccountValuationDTO
     ): InvestmentTransactionEntity {
         val asset = assetService.findByAssetCode(investment.assetCode)
         val price = priceService.getLatestPriceForAsset(investment.assetCode)
@@ -74,10 +74,10 @@ class TransactionService(
                 asset = investmentTransaction.asset,
                 units = BigDecimal.ZERO
             )
-            accountValuation.balances.add(BalanceValuation(balance, price))
+            accountValuation.balances.add(BalanceValuationDTO(balance, price))
             balance.persist()
         }
-        
+
         val unitAdjustment =
             investmentTransaction.units * BalanceEffectType.toBalanceEffectMultiplier(investmentTransaction.balanceEffectType)
                 .toBigDecimal()

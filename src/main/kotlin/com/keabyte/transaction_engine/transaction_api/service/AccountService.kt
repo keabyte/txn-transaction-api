@@ -4,8 +4,8 @@ import com.keabyte.transaction_engine.transaction_api.exception.BusinessExceptio
 import com.keabyte.transaction_engine.transaction_api.repository.AccountRepository
 import com.keabyte.transaction_engine.transaction_api.repository.BalanceRepository
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
-import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuation
-import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuation
+import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuationDTO
+import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuationDTO
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
@@ -23,15 +23,20 @@ class AccountService(
     }
 
     @Transactional
-    fun getAccountValuation(account: AccountEntity): AccountValuation {
-        val accountValuation = AccountValuation()
+    fun getAccountValuation(account: AccountEntity): AccountValuationDTO {
+        val accountValuation = AccountValuationDTO()
         val balances = balanceRepository.findByAccountId(account.id!!)
 
         for (balance in balances) {
             val price = priceService.getLatestPriceForAsset(balance.asset.assetCode)
-            accountValuation.balances.add(BalanceValuation(balance, price))
+            accountValuation.balances.add(BalanceValuationDTO(balance, price))
         }
 
         return accountValuation
+    }
+
+    fun getAccountValuation(accountNumber: String): AccountValuationDTO {
+        val account = getByAccountNumber(accountNumber)
+        return getAccountValuation(account)
     }
 }

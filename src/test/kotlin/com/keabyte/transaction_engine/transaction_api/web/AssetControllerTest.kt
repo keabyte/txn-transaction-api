@@ -56,7 +56,6 @@ class AssetControllerTest {
         assertThat(asset.assetCode).isEqualTo("TSLA")
     }
 
-    @TestTransaction
     @Test
     fun `create asset rest call`() {
         RestAssured.given()
