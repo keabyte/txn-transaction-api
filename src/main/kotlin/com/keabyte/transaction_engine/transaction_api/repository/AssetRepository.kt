@@ -11,6 +11,6 @@ class AssetRepository : PanacheRepository<AssetEntity> {
     fun findByAssetCode(assetCode: String): AssetEntity? =
         find("assetCode", assetCode).firstResult()
 
-    fun findByTypeAndCurrency(type: AssetType, currency: String): MutableList<AssetEntity> =
-        find("type = ?1 and currency = ?2", type, currency).list()
+    fun findByTypeAndCurrency(type: AssetType, currency: String): List<AssetEntity> =
+        list("type = ?1 and currency = ?2", type, currency)
 }

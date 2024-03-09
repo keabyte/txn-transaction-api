@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.web.fixture
+package com.keabyte.transaction_engine.transaction_api.fixture
 
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity

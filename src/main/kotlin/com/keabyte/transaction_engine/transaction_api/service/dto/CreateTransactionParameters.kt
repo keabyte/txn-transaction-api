@@ -1,6 +1,5 @@
-package com.keabyte.transaction_engine.transaction_api.service
+package com.keabyte.transaction_engine.transaction_api.service.dto
 
-import com.keabyte.transaction_engine.transaction_api.service.CreateInvestmentParameters
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 
 

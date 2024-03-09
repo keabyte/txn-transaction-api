@@ -11,5 +11,6 @@
     <include file="db/changelog/release/transaction-event-table.xml"/>
     <include file="db/changelog/release/account-transaction-table.xml"/>
     <include file="db/changelog/release/investment-transaction-table.xml"/>
+    <include file="db/changelog/release/balance-table.xml"/>
 
 </databaseChangeLog>

@@ -1,4 +1,4 @@
-package com.keabyte.transaction_engine.transaction_api.service
+package com.keabyte.transaction_engine.transaction_api.service.dto
 
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import java.math.BigDecimal

@@ -1,10 +1,14 @@
 package com.keabyte.transaction_engine.transaction_api.service
 
-import com.keabyte.transaction_engine.transaction_api.exception.BusinessException
-import com.keabyte.transaction_engine.transaction_api.repository.AccountRepository
+import com.keabyte.transaction_engine.transaction_api.config.round
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountTransactionEntity
+import com.keabyte.transaction_engine.transaction_api.repository.entity.BalanceEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.InvestmentTransactionEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.TransactionEventEntity
+import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuation
+import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuation
+import com.keabyte.transaction_engine.transaction_api.service.dto.CreateInvestmentParameters
+import com.keabyte.transaction_engine.transaction_api.service.dto.CreateTransactionParameters
 import com.keabyte.transaction_engine.transaction_api.type.BalanceEffectType
 import com.keabyte.transaction_engine.transaction_api.type.TransactionType
 import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreateDepositRequest
@@ -15,7 +19,7 @@ import java.math.BigDecimal
 
 @ApplicationScoped
 class TransactionService(
-    private val accountRepository: AccountRepository,
+    private val accountService: AccountService,
     private val assetService: AssetService,
     private val priceService: PriceService
 ) {
@@ -27,8 +31,8 @@ class TransactionService(
         val accountNumbers = params.investments.map { it.accountNumber }.toSet()
 
         for (accountNumber in accountNumbers) {
-            val account = accountRepository.findByAccountNumber(accountNumber)
-                ?: throw BusinessException("No account exists with account number $accountNumber")
+            val account = accountService.getByAccountNumber(accountNumber)
+            val accountValuation = accountService.getAccountValuation(account)
 
             val accountTransaction = AccountTransactionEntity(
                 transactionEvent = transaction,
@@ -37,7 +41,8 @@ class TransactionService(
             transaction.accountTransactions.add(accountTransaction)
 
             for (investment in params.investments.filter { it.accountNumber == accountNumber }) {
-                val investmentTransaction = createInvestmentTransaction(investment, accountTransaction)
+                val investmentTransaction =
+                    createInvestmentTransaction(investment, accountTransaction, accountValuation)
                 accountTransaction.investmentTransactions.add(investmentTransaction)
             }
         }
@@ -47,13 +52,14 @@ class TransactionService(
 
     private fun createInvestmentTransaction(
         investment: CreateInvestmentParameters,
-        accountTransaction: AccountTransactionEntity
+        accountTransaction: AccountTransactionEntity,
+        accountValuation: AccountValuation
     ): InvestmentTransactionEntity {
         val asset = assetService.findByAssetCode(investment.assetCode)
         val price = priceService.getLatestPriceForAsset(investment.assetCode)
-        val units = (investment.amount / price.price).setScale(asset.roundingScale, BigDecimal.ROUND_HALF_UP)
+        val units = (investment.amount / price.price).round(asset.roundingScale)
 
-        return InvestmentTransactionEntity(
+        val investmentTransaction = InvestmentTransactionEntity(
             accountTransaction = accountTransaction,
             amount = investment.amount,
             currency = investment.currency,
@@ -61,8 +67,26 @@ class TransactionService(
             asset = asset,
             units = units
         )
+
+        if (!accountValuation.hasAssetBalance(investmentTransaction.asset.assetCode)) {
+            val balance = BalanceEntity(
+                account = accountTransaction.account,
+                asset = investmentTransaction.asset,
+                units = BigDecimal.ZERO
+            )
+            accountValuation.balances.add(BalanceValuation(balance, price))
+            balance.persist()
+        }
+        
+        val unitAdjustment =
+            investmentTransaction.units * BalanceEffectType.toBalanceEffectMultiplier(investmentTransaction.balanceEffectType)
+                .toBigDecimal()
+        accountValuation.adjustAssetUnits(investmentTransaction.asset.assetCode, unitAdjustment)
+
+
+        return investmentTransaction
     }
-    
+
     @Transactional
     fun createDeposit(request: CreateDepositRequest): TransactionEventEntity {
         val transaction = createTransaction(

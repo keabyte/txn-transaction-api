@@ -5,25 +5,26 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="account_transaction.1" author="taylar-keast">
+    <changeSet id="account-table.create.1" author="taylar-keast">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="account_transaction"/>
+                <tableExists tableName="balance"/>
             </not>
         </preConditions>
 
-        <createTable tableName="account_transaction">
+        <createTable tableName="balance">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
-            </column>
-            <column name="transaction_event_id" type="bigint">
-                <constraints referencedColumnNames="id" referencedTableName="transaction_event"
-                             foreignKeyName="fk_transaction_event_id"/>
             </column>
             <column name="account_id" type="bigint">
                 <constraints referencedColumnNames="id" referencedTableName="account"
                              foreignKeyName="fk_account_id"/>
             </column>
+            <column name="asset_id" type="bigint">
+                <constraints referencedColumnNames="id"
+                             referencedTableName="asset" foreignKeyName="fk_asset_id"/>
+            </column>
+            <column name="units" type="decimal"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

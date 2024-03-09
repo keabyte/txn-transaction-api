@@ -1,7 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.web
 
 import com.keabyte.transaction_engine.transaction_api.exception.BusinessException
-import com.keabyte.transaction_engine.transaction_api.web.fixture.TestDataFixture
+import com.keabyte.transaction_engine.transaction_api.fixture.TestDataFixture
 import com.keabyte.transaction_engine.transaction_api.web.model.transaction.CreatePriceRequest
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
