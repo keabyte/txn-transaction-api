@@ -9,3 +9,7 @@ quarkus:
 
   liquibase:
     clean-at-start: true
+
+kafka:
+  bootstrap:
+    servers: localhost:9092

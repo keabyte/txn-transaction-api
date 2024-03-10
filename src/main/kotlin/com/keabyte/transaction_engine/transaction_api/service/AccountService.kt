@@ -6,6 +6,8 @@ import com.keabyte.transaction_engine.transaction_api.repository.BalanceReposito
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import com.keabyte.transaction_engine.transaction_api.service.dto.AccountValuationDTO
 import com.keabyte.transaction_engine.transaction_api.service.dto.BalanceValuationDTO
+import com.keabyte.transaction_engine.transaction_api.web.model.Account
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
@@ -38,5 +40,15 @@ class AccountService(
     fun getAccountValuation(accountNumber: String): AccountValuationDTO {
         val account = getByAccountNumber(accountNumber)
         return getAccountValuation(account)
+    }
+
+    @Transactional
+    fun processAccountEvent(account: Account) {
+        Log.info("Processing account event: $account")
+        AccountEntity(
+            accountNumber = account.accountNumber,
+            clientNumber = account.clientNumber,
+            createdDate = account.createdDate
+        ).persist()
     }
 }
