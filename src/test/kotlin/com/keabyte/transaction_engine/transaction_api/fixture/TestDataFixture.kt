@@ -17,6 +17,7 @@ class TestDataFixture {
         const val defaultAccountNumber = "P1000"
         const val zeroBalanceAccountNumber = "P0000"
         const val defaultAssetCode = "CASH_AUD"
+        const val noPriceAssetCode = "CASH_GBP"
     }
 
     @Startup
@@ -73,6 +74,15 @@ class TestDataFixture {
             roundingScale = 2,
             currency = "USD",
             latestPrice = BigDecimal.ONE
+        ).persist()
+
+        AssetEntity(
+            assetCode = "CASH_GBP",
+            name = "Cash (GBP)",
+            dividendYield = BigDecimal.ZERO,
+            type = AssetType.CASH,
+            roundingScale = 2,
+            currency = "GBP",
         ).persist()
     }
 }

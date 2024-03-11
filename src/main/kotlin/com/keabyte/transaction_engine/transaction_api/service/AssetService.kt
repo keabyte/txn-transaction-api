@@ -4,6 +4,8 @@ import com.keabyte.transaction_engine.transaction_api.exception.BusinessExceptio
 import com.keabyte.transaction_engine.transaction_api.repository.AssetRepository
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
+import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 
@@ -21,5 +23,18 @@ class AssetService(private val assetRepository: AssetRepository) {
         return assetRepository.findByTypeAndCurrency(AssetType.CASH, currency)
             .firstOrNull()
             ?: throw BusinessException("No cash asset exists for currency $currency")
+    }
+
+    @Transactional
+    fun processAssetEvent(asset: Asset) {
+        Log.info("Processing asset event: $asset")
+        AssetEntity(
+            assetCode = asset.assetCode,
+            name = asset.name,
+            type = asset.type,
+            currency = asset.currency,
+            roundingScale = asset.roundingScale,
+            dividendYield = asset.dividendYield
+        ).persist()
     }
 }

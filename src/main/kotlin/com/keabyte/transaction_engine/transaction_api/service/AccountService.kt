@@ -10,6 +10,7 @@ import com.keabyte.transaction_engine.transaction_api.web.model.Account
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
+import java.math.BigDecimal
 
 @ApplicationScoped
 class AccountService(
@@ -30,7 +31,10 @@ class AccountService(
 
         for (balance in balances) {
             val price = balance.asset.latestPrice
-            accountValuation.balances.add(BalanceValuationDTO(balance, price))
+            if (price == null) {
+                Log.warn("No price found for asset ${balance.asset.assetCode}")
+            }
+            accountValuation.balances.add(BalanceValuationDTO(balance, price ?: BigDecimal.ZERO))
         }
 
         return accountValuation

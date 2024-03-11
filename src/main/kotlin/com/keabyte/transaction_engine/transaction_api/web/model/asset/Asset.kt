@@ -10,5 +10,4 @@ data class Asset(
     val type: AssetType,
     val roundingScale: Int,
     val currency: String?,
-    val latestPrice: BigDecimal
 )

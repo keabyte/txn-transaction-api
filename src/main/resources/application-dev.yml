@@ -6,7 +6,7 @@ quarkus:
     username: postgres
     password: postgres
     jdbc:
-      url: jdbc:postgresql://localhost:8201/txn-transaction-api-db
+      url: jdbc:postgresql://localhost:8201/txn-transaction-db
       driver: org.postgresql.Driver
 
   liquibase:

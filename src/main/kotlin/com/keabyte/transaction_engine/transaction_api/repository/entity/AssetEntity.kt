@@ -16,7 +16,7 @@ data class AssetEntity(
     val type: AssetType,
     val roundingScale: Int,
     val currency: String?,
-    val latestPrice: BigDecimal
+    val latestPrice: BigDecimal? = null
 ) :
     PanacheEntityBase() {
     fun toModel() = Asset(
@@ -26,6 +26,5 @@ data class AssetEntity(
         type = type,
         roundingScale = roundingScale,
         currency = currency,
-        latestPrice = latestPrice
     )
 }

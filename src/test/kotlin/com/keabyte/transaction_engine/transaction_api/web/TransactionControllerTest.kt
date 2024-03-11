@@ -77,6 +77,21 @@ class TransactionControllerTest {
     }
 
     @Test
+    fun `create deposit when asset has no price`() {
+        assertThatThrownBy {
+            transactionController.createDeposit(
+                CreateDepositRequest(
+                    accountNumber = TestDataFixture.defaultAccountNumber,
+                    amount = BigDecimal("100"),
+                    currency = "GBP"
+                )
+            )
+        }
+            .isInstanceOf(BusinessException::class.java)
+            .hasMessageContaining("No price found for asset")
+    }
+
+    @Test
     fun `create deposit rest call`() {
         RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON)

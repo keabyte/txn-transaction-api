@@ -3,10 +3,10 @@ version: '3'
 services:
   db:
     image: postgres:16.2
-    container_name: txn-transaction-api-db
+    container_name: txn-transaction-db
     environment:
       LANG: en_US.utf8
-      POSTGRES_DB: txn-transaction-api
+      POSTGRES_DB: txn-transaction-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data

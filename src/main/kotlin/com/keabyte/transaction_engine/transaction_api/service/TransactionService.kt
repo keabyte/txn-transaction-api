@@ -1,6 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.service
 
 import com.keabyte.transaction_engine.transaction_api.config.round
+import com.keabyte.transaction_engine.transaction_api.exception.BusinessException
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountTransactionEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.BalanceEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.InvestmentTransactionEntity
@@ -55,7 +56,8 @@ class TransactionService(
         accountValuation: AccountValuationDTO
     ): InvestmentTransactionEntity {
         val asset = assetService.findByAssetCode(investment.assetCode)
-        val units = (investment.amount / asset.latestPrice).round(asset.roundingScale)
+        val price = asset.latestPrice ?: throw BusinessException("No price found for asset ${asset.assetCode}")
+        val units = (investment.amount / price).round(asset.roundingScale)
 
         val investmentTransaction = InvestmentTransactionEntity(
             accountTransaction = accountTransaction,
@@ -72,7 +74,7 @@ class TransactionService(
                 asset = investmentTransaction.asset,
                 units = BigDecimal.ZERO
             )
-            accountValuation.balances.add(BalanceValuationDTO(balance, asset.latestPrice))
+            accountValuation.balances.add(BalanceValuationDTO(balance, price))
             balance.persist()
         }
 
