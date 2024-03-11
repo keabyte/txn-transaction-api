@@ -2,7 +2,6 @@ package com.keabyte.transaction_engine.transaction_api.fixture
 
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AccountEntity
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
-import com.keabyte.transaction_engine.transaction_api.repository.entity.PriceEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
 import io.quarkus.runtime.Startup
 import jakarta.enterprise.context.ApplicationScoped
@@ -58,33 +57,22 @@ class TestDataFixture {
         val asset = AssetEntity(
             assetCode = "CASH_AUD",
             name = "Cash (AUD)",
-            createdDate = OffsetDateTime.now(),
-            foundedDate = OffsetDateTime.now(),
             dividendYield = BigDecimal.ZERO,
-            description = "Australian dollars",
             type = AssetType.CASH,
             roundingScale = 2,
-            currency = "AUD"
+            currency = "AUD",
+            latestPrice = BigDecimal.ONE
         )
         asset.persist()
-
-        PriceEntity(
-            asset = asset,
-            effectiveDate = OffsetDateTime.now(),
-            price = BigDecimal.ONE,
-            currency = "AUD"
-        ).persist()
 
         AssetEntity(
             assetCode = "CASH_USD",
             name = "Cash (USD)",
-            createdDate = OffsetDateTime.now(),
-            foundedDate = OffsetDateTime.now(),
             dividendYield = BigDecimal.ZERO,
-            description = "American dollars",
             type = AssetType.CASH,
             roundingScale = 2,
-            currency = "USD"
+            currency = "USD",
+            latestPrice = BigDecimal.ONE
         ).persist()
     }
 }

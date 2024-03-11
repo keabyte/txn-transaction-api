@@ -19,18 +19,15 @@
             <column name="asset_code" type="varchar(255)">
                 <constraints unique="true" uniqueConstraintName="uk_asset_code"/>
             </column>
-            <column name="created_date" type="timestamptz" defaultValueComputed="current_timestamp"/>
             <column name="dividend_yield" type="decimal" defaultValueNumeric="0"/>
             <column name="name" type="varchar"/>
-            <column name="description" type="varchar"/>
-            <column name="founded_date" type="timestamptz"/>
-            <column name="website_url" type="varchar">
-                <constraints nullable="true"/>
-            </column>
             <column name="type" type="varchar(255)"/>
             <column name="currency" type="varchar(255)"/>
             <column name="rounding_scale" type="int"
                     remarks="The number of digits to the right of the decimal point in a number."/>
+            <column name="latest_price" type="decimal">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

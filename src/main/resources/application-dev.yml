@@ -1,10 +1,12 @@
 quarkus:
+  http:
+    port: 8200
   datasource:
     db-kind: postgres
     username: postgres
     password: postgres
     jdbc:
-      url: jdbc:postgresql://localhost:5433/txn-transaction-api
+      url: jdbc:postgresql://localhost:8201/txn-transaction-api-db
       driver: org.postgresql.Driver
 
   liquibase:

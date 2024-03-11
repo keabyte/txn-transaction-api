@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional
 class AccountService(
     private val accountRepository: AccountRepository,
     private val balanceRepository: BalanceRepository,
-    private val priceService: PriceService
 ) {
 
     @Transactional
@@ -30,7 +29,7 @@ class AccountService(
         val balances = balanceRepository.findByAccountId(account.id!!)
 
         for (balance in balances) {
-            val price = priceService.getLatestPriceForAsset(balance.asset.assetCode)
+            val price = balance.asset.latestPrice
             accountValuation.balances.add(BalanceValuationDTO(balance, price))
         }
 

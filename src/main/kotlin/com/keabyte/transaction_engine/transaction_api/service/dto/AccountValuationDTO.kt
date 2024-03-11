@@ -10,7 +10,7 @@ data class AccountValuationDTO(val balances: MutableList<BalanceValuationDTO> = 
      * Return the total value of the account
      */
     fun totalValue(): BigDecimal {
-        return balances.sumOf { it.amount }
+        return balances.sumOf { it.amount() }
     }
 
     /**
@@ -24,7 +24,7 @@ data class AccountValuationDTO(val balances: MutableList<BalanceValuationDTO> = 
      * Return the value of the asset using the latest price
      */
     fun getAssetValue(assetCode: String): BigDecimal {
-        return balances.firstOrNull { it.balance.asset.assetCode == assetCode }?.amount ?: BigDecimal.ZERO
+        return balances.firstOrNull { it.balance.asset.assetCode == assetCode }?.amount() ?: BigDecimal.ZERO
     }
 
     fun adjustAssetUnits(assetCode: String, units: BigDecimal) {

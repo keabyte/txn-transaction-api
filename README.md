@@ -6,9 +6,9 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 ## OpenAPI
 
-http://localhost:8080/openapi
+http://localhost:8200/openapi
 
-http://localhost:8080/q/swagger-ui/
+http://localhost:8200/q/swagger-ui/
 
 ## Running the application in dev mode
 

@@ -7,7 +7,6 @@
 
     <include file="db/changelog/release/account-table.xml"/>
     <include file="db/changelog/release/asset-table.xml"/>
-    <include file="db/changelog/release/price-table.xml"/>
     <include file="db/changelog/release/transaction-event-table.xml"/>
     <include file="db/changelog/release/account-transaction-table.xml"/>
     <include file="db/changelog/release/investment-transaction-table.xml"/>

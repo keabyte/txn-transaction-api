@@ -21,7 +21,6 @@ import java.math.BigDecimal
 class TransactionService(
     private val accountService: AccountService,
     private val assetService: AssetService,
-    private val priceService: PriceService
 ) {
     fun createTransaction(params: CreateTransactionParameters): TransactionEventEntity {
         val transaction = TransactionEventEntity(
@@ -56,8 +55,7 @@ class TransactionService(
         accountValuation: AccountValuationDTO
     ): InvestmentTransactionEntity {
         val asset = assetService.findByAssetCode(investment.assetCode)
-        val price = priceService.getLatestPriceForAsset(investment.assetCode)
-        val units = (investment.amount / price.price).round(asset.roundingScale)
+        val units = (investment.amount / asset.latestPrice).round(asset.roundingScale)
 
         val investmentTransaction = InvestmentTransactionEntity(
             accountTransaction = accountTransaction,
@@ -74,7 +72,7 @@ class TransactionService(
                 asset = investmentTransaction.asset,
                 units = BigDecimal.ZERO
             )
-            accountValuation.balances.add(BalanceValuationDTO(balance, price))
+            accountValuation.balances.add(BalanceValuationDTO(balance, asset.latestPrice))
             balance.persist()
         }
 
