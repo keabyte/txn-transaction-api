@@ -1,7 +1,7 @@
 package com.keabyte.transaction_engine.transaction_api.repository.entity
 
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
-import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
+import com.keabyte.transaction_engine.transaction_api.web.model.Asset
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import jakarta.persistence.*
 import java.math.BigDecimal
@@ -16,7 +16,7 @@ data class AssetEntity(
     val type: AssetType,
     val roundingScale: Int,
     val currency: String?,
-    val latestPrice: BigDecimal? = null
+    var latestPrice: BigDecimal? = null
 ) :
     PanacheEntityBase() {
     fun toModel() = Asset(

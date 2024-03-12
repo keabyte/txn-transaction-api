@@ -27,3 +27,9 @@ mp:
         auto:
           offset:
             reset: earliest
+      prices:
+        failure-strategy: dead-letter-queue
+        connector: smallrye-kafka
+        auto:
+          offset:
+            reset: earliest

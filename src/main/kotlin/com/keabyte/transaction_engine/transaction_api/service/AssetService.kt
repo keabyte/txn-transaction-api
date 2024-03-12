@@ -4,7 +4,8 @@ import com.keabyte.transaction_engine.transaction_api.exception.BusinessExceptio
 import com.keabyte.transaction_engine.transaction_api.repository.AssetRepository
 import com.keabyte.transaction_engine.transaction_api.repository.entity.AssetEntity
 import com.keabyte.transaction_engine.transaction_api.type.AssetType
-import com.keabyte.transaction_engine.transaction_api.web.model.asset.Asset
+import com.keabyte.transaction_engine.transaction_api.web.model.Asset
+import com.keabyte.transaction_engine.transaction_api.web.model.Price
 import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
@@ -36,5 +37,12 @@ class AssetService(private val assetRepository: AssetRepository) {
             roundingScale = asset.roundingScale,
             dividendYield = asset.dividendYield
         ).persist()
+    }
+
+    @Transactional
+    fun processPriceEvent(price: Price) {
+        Log.info("Processing price event: $price")
+        val asset = findByAssetCode(price.assetCode)
+        asset.latestPrice = price.price
     }
 }
